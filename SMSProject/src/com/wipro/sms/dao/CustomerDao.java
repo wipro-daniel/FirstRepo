@@ -82,10 +82,7 @@ public class CustomerDao {
 			e.printStackTrace();
 			return false;
 		}
-		finally
-		{
-			scan.close();
-		}
+
 	}
 	
 	public boolean updatePostcode(){
@@ -117,10 +114,6 @@ public class CustomerDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		}
-		finally
-		{
-			scan.close();
 		}
 		
 	}
@@ -156,23 +149,20 @@ public class CustomerDao {
 			e.printStackTrace();
 			return false;
 		}
-		finally
-		{
-			scan.close();
-		}
+
 		
 
 	}
 	
-	public boolean deleteCustomer() {
+	public boolean deleteCustomer(String number) {
 		
 		Scanner scan=new Scanner(System.in);
 		
 		try {
 			Statement st=con.createStatement();
 			
-			System.out.println("Enter Customer_Number to be deleted");
-			String number=scan.nextLine();
+//			System.out.println("Enter Customer_Number to be deleted");
+//			String number=scan.nextLine();
 			String sql="DELETE FROM Customer_Data where Customer_Number="+number;
 			System.out.println(sql);
 			int count=st.executeUpdate(sql);
@@ -193,19 +183,16 @@ public class CustomerDao {
 			e.printStackTrace();
 			return false;
 		}
-		finally
-		{
-			scan.close();
-		}
+
 	}
 	
 	
-	public boolean readCustomer(){
+	public boolean readCustomer(String Customer_Number){
 		try {
 			Statement st=con.createStatement();
-			Scanner scan=new Scanner(System.in);
-			System.out.println("Enter Customer Number to be read");
-			String Customer_Number=scan.nextLine();
+//			Scanner scan=new Scanner(System.in);
+//			System.out.println("Enter Customer Number to be read");
+//			String Customer_Number=scan.nextLine();
 
 			// Changed is to =
 			String sql="SELECT * FROM Customer_Data where Customer_Number ="+Customer_Number;

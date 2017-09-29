@@ -1,6 +1,7 @@
 package com.wipro.sms.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -15,7 +16,7 @@ import com.wipro.sms.bean.Item;
 // TODO : SELECTITEM
 public class ItemDao {
 	
-	Connection con= DBUtil.con;
+	static Connection con= DBUtil.con;
 	
 	public boolean insertItem(Item i){
 		   
@@ -70,10 +71,6 @@ public class ItemDao {
 			e.printStackTrace();
 			return false;
 		}
-		finally
-		{
-			scan.close();
-		}
 	}
 	
 	// Do we want to ask for the name of a product or the ID? 
@@ -106,22 +103,63 @@ public class ItemDao {
 			e.printStackTrace();
 			return false;
 		}
-		finally
-		{
-			scan.close();
+	}
+	
+	public static boolean updateStock(int stock,String Product_ID){		
+		Scanner scan=new Scanner(System.in);		
+		try {
+			
+			int previous = getStock(Product_ID);
+			
+			int newStock = previous + stock;
+			
+			String sql="UPDATE Inventory SET Product_Quantity="+newStock+" WHERE Product_ID= '"+Product_ID+"'";
+			Statement st=con.createStatement();
+			int count=st.executeUpdate(sql);
+			
+			if (count==1)
+			{
+				System.out.println("Quantity Updated");
+				return true;
+			}
+			else
+			{
+				System.out.println("Quantity not Updated");
+				return false;
+			}
+
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 	
-	public boolean updateName(){
+	public static int getStock(String productID) {
+        try {               
+            Statement st = con.createStatement();
+            String sql = "SELECT Product_Quantity FROM Inventory WHERE Product_ID = " + productID;
+            ResultSet rs=st.executeQuery(sql);
+           if(rs.next()){                    
+        	   return rs.getInt(1);}
+	       else
+	        {
+	        	return 0;
+	        }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+	}
+	
+	public boolean updateName(String Product_ID,String Product_Name){
 		
 		Scanner scan=new Scanner(System.in);
 		try {
 			Statement st=con.createStatement();
 			
-			System.out.println("Enter Product ID");
-			String Product_ID = scan.nextLine();
-			System.out.println("Enter new name");
-			String Product_Name=scan.nextLine();
+			
 			String sql="UPDATE Inventory SET Product_Name='"+Product_Name+"' WHERE Product_ID='"+Product_ID + "'";
 			System.out.println(sql);
 			int count=st.executeUpdate(sql);
@@ -141,11 +179,43 @@ public class ItemDao {
 			e.printStackTrace();
 			return false;
 		}
-		finally
-		{
-			scan.close();
-		}
 	}
+	
+	public boolean readItem(String Product_ID){
+	    
+		   try {
+		       Statement st=con.createStatement();
+
+
+		       String sql="SELECT * FROM Inventory where Product_ID ="+Product_ID;
+		       System.out.println(sql);
+		       ResultSet rs=st.executeQuery(sql);
+		       boolean flag=false;
+		       while (rs.next())
+		       {
+		           flag=true;
+		           System.out.println("Product_ID: "+rs.getString(2));
+		           System.out.println("Product_Name: "+rs.getString(1));
+		           System.out.println("Product_Quantity: "+rs.getInt(3));
+		           System.out.println("Prouct_Price: "+rs.getDouble(4));
+		       }
+		       
+		       if (!flag)
+		       {
+		           System.out.println("Record not found");
+		           return false;
+		       }
+		       else
+		       {
+		           return true;
+		       }
+		   } catch (SQLException e) {
+		       e.printStackTrace();
+		       return true;
+		   }
+		}
+	
+	
 
 	
 }

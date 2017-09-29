@@ -21,8 +21,8 @@ public class Service {
 			
 		// Creates a connection
 		DBUtil.getConnection();
-		//SMSInterface.menu();
-		
+		SMSInterface.menu();
+//		
 		// Creates a create object
 		CreateDatabase cdb = new CreateDatabase();
 		// Customer Database object
@@ -35,13 +35,18 @@ public class Service {
 		Purchase thur01 = new Purchase("02","curry101","07834226811",3.20,10);
 		DropTables drop = new DropTables();
 		
+		
+
+		//cd.insertCustomer(vincent);
+		
+		
 //		drop.dropCustomer();
 //		drop.dropInventory();
 //		drop.dropPurchase();
 //		
 //		
 //		
-//// ----------- Creates the databases if not doneso already	
+// ----------- Creates the databases if not doneso already	
 //		if(cdb.createCustomerData())
 //		{
 //			System.out.println("Customer Data Created");
@@ -50,11 +55,12 @@ public class Service {
 //		{
 //			System.out.println("Inventory Created");
 //		}
-
+//
 //		if(cdb.createPurchase())
 //		{
 //			System.out.println("Inventory Created");
 //		}
+
 //		if(cdb.createInventoryIncrement())
 //		{
 //			System.out.println("Create Inventory Increment");
@@ -63,10 +69,10 @@ public class Service {
 //		{
 //			System.out.println("Create Purchase Increment");
 //		}
-		cdb.createInvTrigger();
+//		cdb.createInvTrigger();
 //		
 //		 ---- TESTED
-		//cd.insertCustomer(vincent);
+		
 //		cd.readCustomer();
 //		cd.updateAddress();
 //		cd.readCustomer();
